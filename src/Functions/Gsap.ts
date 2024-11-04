@@ -11,7 +11,7 @@ import { Dispatch } from "redux";
 export const handleDelAnimation = (
   id: string,
   dispatch: any,
-  animatingId: any,
+ 
   setAnimatingId: React.Dispatch<React.SetStateAction<string | null>>
 ) => {
   const noteElement = document.getElementById(`note-${id}`);
@@ -49,7 +49,7 @@ export const filterNotes = (
 export const animatePlusButton = (
   condition: boolean,
   setCondition: React.Dispatch<React.SetStateAction<boolean>>,
-  dispatch: Dispatch
+ 
 ) => {
   let mm = gsap.matchMedia();
 
