@@ -1,5 +1,9 @@
 import { IoSearchSharp } from "react-icons/io5";
-import { setSearchQuery, toggleShowfavorite, deletAll } from "../Features/NotesSlice";
+import {
+  setSearchQuery,
+  toggleShowfavorite,
+  deletAll,
+} from "../Features/NotesSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 function SearchInput() {
@@ -7,10 +11,11 @@ function SearchInput() {
   const search = useSelector((state: any) => state.notes.searchQuery);
   const showFavourites = useSelector((state: any) => state.notes.showFavorite);
   const notes = useSelector((state: any) => state.notes.notes);
+
   const handleChange = (e: any) => {
     dispatch(setSearchQuery(e.target.value));
   };
-  
+
   return (
     <div className="h-[10%] flex items-center gap-2 justify-between w-full">
       <div className="flex items-center gap-2 w-[50%]">
@@ -31,9 +36,11 @@ function SearchInput() {
           {showFavourites ? "Show all" : "Show ⭐"}
         </button>
         <button
-         onClick={()=>dispatch(deletAll(notes))}
+          onClick={() => dispatch(deletAll(notes))}
           className="bg-black py-2 font-bold px-5 rounded-lg text-white"
-        >Delete all</button>
+        >
+          Delete all
+        </button>
       </div>
     </div>
   );

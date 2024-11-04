@@ -3,7 +3,7 @@ import gsap from "gsap";
 
 interface Note {
   id: string;
-  note:string;
+  note: string;
   favourite: boolean;
   editable: boolean;
   date: number;
@@ -18,6 +18,7 @@ interface NotesState {
   searchQuery: string;
   notequery: string;
   showFavorite: boolean;
+  NotePushingAnimationOrder: boolean;
 }
 
 const initialState: NotesState = {
@@ -37,7 +38,6 @@ const initialState: NotesState = {
       date: Date.now(),
       selectedColor: "bg-purple-300",
       inputValue: "",
-
     },
   ],
 
@@ -45,6 +45,11 @@ const initialState: NotesState = {
   searchQuery: "",
   notequery: "",
   showFavorite: false,
+  NotePushingAnimationOrder: false,
+};
+
+const updateLocalStorage = (notes: Note[]) => {
+  localStorage.setItem("notes", JSON.stringify(notes));
 };
 
 export const notesSlice = createSlice({
@@ -54,7 +59,7 @@ export const notesSlice = createSlice({
     addNotes: (state, action: PayloadAction<string>) => {
       const newNote: Note = {
         id: nanoid(),
-        note:"",
+        note: "",
         favourite: false,
         editable: false,
         date: Date.now(),
@@ -62,16 +67,13 @@ export const notesSlice = createSlice({
         inputValue: "",
       };
       state.notes.unshift(newNote);
+      updateLocalStorage(state.notes);
     },
     toggleFavourite: (state, action: PayloadAction<string>) => {
       const favNote = state.notes.find((note) => note.id === action.payload);
       if (favNote) {
-        gsap.to("#Fav", {
-          scale: 1.1,
-          duration: 0.1,
-          ease: "bounce.inOut",
-        });
         favNote.favourite = !favNote.favourite;
+        updateLocalStorage(state.notes);
       }
     },
 
@@ -79,52 +81,78 @@ export const notesSlice = createSlice({
       state.colorPicker = action.payload;
     },
 
-    deleteNote : (state, action: PayloadAction<string>) => {
-      const allNotes = state.notes.filter((note)=> note.id !== action.payload);
+    deleteNote: (state, action: PayloadAction<string>) => {
+      const allNotes = state.notes.filter((note) => note.id !== action.payload);
       state.notes = allNotes;
+      updateLocalStorage(state.notes);
     },
 
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
+      updateLocalStorage(state.notes);
     },
 
-    setWhoValue: (state, action: PayloadAction<{ id: string; value: string }>) => {
+    setWhoValue: (
+      state,
+      action: PayloadAction<{ id: string; value: string }>
+    ) => {
       const { id, value } = action.payload;
-      const note = state.notes.find(note => note.id === id);
+      const note = state.notes.find((note) => note.id === id);
       if (note) {
         note.inputValue = value;
+        updateLocalStorage(state.notes);
       }
     },
 
-    searchNoteValue:(state, action: PayloadAction<{ id: string; value: string }>) => {
+    searchNoteValue: (
+      state,
+      action: PayloadAction<{ id: string; value: string }>
+    ) => {
       const { id, value } = action.payload;
-      const note = state.notes.find(note => note.id === id);
+      const note = state.notes.find((note) => note.id === id);
       if (note) {
         note.note = value;
+        updateLocalStorage(state.notes);
       }
     },
-    toggleShowfavorite: (state)=>{
-      state.showFavorite =!state.showFavorite;
+    toggleShowfavorite: (state) => {
+      state.showFavorite = !state.showFavorite;
     },
-    deletAll: (state)=>{
-      if(state.notes.length > 0) {
-        gsap.to(".allnotes" , {
+    deletAll: (state) => {
+      if (state.notes.length > 0) {
+        gsap.to(".allnotes", {
           y: 500,
           duration: 1,
           ease: "bounce.out",
-          opacity:0,
+          opacity: 0,
           onComplete: () => {
             state.notes = [];
-           
-          }
+          },
         });
+        localStorage.clear();
       }
-     
-    }
+    },
+    setNotePushingAnimationOrder: (state) => {
+      state.NotePushingAnimationOrder = !state.NotePushingAnimationOrder;
+    },
+    setInitialNotes: (state, action: PayloadAction<Note[]>) => {
+      state.notes = action.payload;
+    },
   },
 });
 
-export const { addNotes, toggleFavourite, SetColorPicker, deleteNote, setSearchQuery, setWhoValue, searchNoteValue, toggleShowfavorite, deletAll } =
-  notesSlice.actions;
+export const {
+  addNotes,
+  toggleFavourite,
+  SetColorPicker,
+  deleteNote,
+  setSearchQuery,
+  setWhoValue,
+  searchNoteValue,
+  toggleShowfavorite,
+  deletAll,
+  setNotePushingAnimationOrder,
+  setInitialNotes,
+} = notesSlice.actions;
 
 export default notesSlice.reducer;

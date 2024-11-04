@@ -1,37 +1,56 @@
-import { addNotes, deleteNote, SetColorPicker } from "../../Features/NotesSlice";
+import {
+  addNotes,
+  deleteNote,
+  SetColorPicker,
+  setNotePushingAnimationOrder,
+} from "../Features/NotesSlice";
 import { gsap } from "gsap";
 import { Dispatch } from "redux";
 
-
-
-export const handleDelAnimation = (id: string, dispatch: any, animatingId:any, setAnimatingId: React.Dispatch<React.SetStateAction<string | null>>) => {
+// Handle Delete Animation Function
+export const handleDelAnimation = (
+  id: string,
+  dispatch: any,
+  animatingId: any,
+  setAnimatingId: React.Dispatch<React.SetStateAction<string | null>>
+) => {
   const noteElement = document.getElementById(`note-${id}`);
   if (!noteElement) return;
 
   setAnimatingId(id);
 
   gsap.to(noteElement, {
-    y: 500,
-    duration: 1,
+    scale: 0,
+    duration: 0.5,
     ease: "bounce.out",
     opacity: 0,
     onComplete: () => {
       dispatch(deleteNote(id));
       setAnimatingId(null);
-    }
+    },
   });
 };
 // Filter Funtion
-export const filterNotes = (notes: any[], searchQuery: string, showFavourites: boolean) => {
+export const filterNotes = (
+  notes: any[],
+  searchQuery: string,
+  showFavourites: boolean
+) => {
   return notes.filter((note) => {
-    const matchesSearch = note.inputValue.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch = note.inputValue
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
     const matchesFavorite = !showFavourites || note.favourite;
     return matchesSearch && matchesFavorite;
   });
 };
 
 // Handle Add Button Click
-export const animatePlusButton = (condition: boolean, setCondition: React.Dispatch<React.SetStateAction<boolean>>, dispatch: Dispatch) => {
+export const animatePlusButton = (
+  condition: boolean,
+  setCondition: React.Dispatch<React.SetStateAction<boolean>>,
+  dispatch: Dispatch
+) => {
   const tl = gsap.timeline();
   if (condition) {
     tl.to("#plus", {
@@ -66,12 +85,17 @@ export const animatePlusButton = (condition: boolean, setCondition: React.Dispat
 };
 
 // Handle Color Pick
-
-export const handleColorPick = (color: string, dispatch: Dispatch, setCondition: React.Dispatch<React.SetStateAction<boolean>>) => {
+export const handleColorPick = (
+  color: string,
+  dispatch: Dispatch,
+  setCondition: React.Dispatch<React.SetStateAction<boolean>>,
+  NotePushingAnimationOrder: any
+) => {
   dispatch(SetColorPicker(color));
   dispatch(addNotes(color));
-
+  dispatch(setNotePushingAnimationOrder(NotePushingAnimationOrder));
   const tl = gsap.timeline();
+
   tl.to("#colors", {
     opacity: 0,
     y: -100,

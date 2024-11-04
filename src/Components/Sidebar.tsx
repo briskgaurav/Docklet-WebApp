@@ -1,8 +1,7 @@
 import { GoPlus } from "react-icons/go";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { SetColorPicker } from "../Features/NotesSlice";
-import { animatePlusButton } from "../app/Functions/Gsap";
+import { animatePlusButton, handleColorPick } from "../Functions/Gsap";
 
 function Sidebar() {
   const [condition, setCondition] = useState(true);
@@ -11,9 +10,14 @@ function Sidebar() {
   const handlePlus = () => {
     animatePlusButton(condition, setCondition, dispatch);
   };
-  
-  const handleColorPick = (color: string) => {
-    dispatch(SetColorPicker(color));
+  const NotePushingAnimationOrder = useSelector(
+    (state: any) => state.notes.NotePushingAnimationOrder
+  );
+
+  const onColorPick = (color: string) => {
+    if (!condition) {
+      handleColorPick(color, dispatch, setCondition, NotePushingAnimationOrder);
+    }
   };
 
   return (
@@ -33,7 +37,7 @@ function Sidebar() {
         {colors.map((color: string, index: number) => (
           <div
             key={index}
-            onClick={() => handleColorPick(color)}
+            onClick={() => onColorPick(color)}
             id="colors"
             className={`w-[20px] opacity-0 ${color} h-[20px] mt-5 -translate-x-[-80%] rounded-full`}
           ></div>
