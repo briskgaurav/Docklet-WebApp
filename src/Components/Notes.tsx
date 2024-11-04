@@ -21,27 +21,39 @@ function Notes() {
   const NotePushingAnimationOrder = useSelector(
     (state: any) => state.notes.NotePushingAnimationOrder
   );
-  console.log(NotePushingAnimationOrder);
 
   useEffect(() => {
-    // Run the animation whenever the color changes
-    gsap.from(".allnotes", {
-      x: -200,
-      duration: 0.5,
-      ease: "back.out(1.7)",
+    let mm = gsap.matchMedia();
+
+    mm.add("(min-width:800px)", ()=>{
+      gsap.from(".allnotes", {
+        x: -200,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+      });
+
     });
+    mm.add("(max-width:799px)", ()=>{
+      gsap.from(".allnotes", {
+        y: -200,
+        duration: 0.5,
+        ease: "back.out(1.7)",
+      });
+
+    });
+    
   }, [NotePushingAnimationOrder]);
 
   return (
     <div
-      id="container"
-      className="h-full mt-5 w-full flex items-start justify-start gap-6 overflow-x-auto py-4"
+      id="container" 
+      className="h-[60vh] lg:h-full mt-5  w-full lg:p-0 relative lg:flex items-start justify-start gap-6 overflow-y-auto lg:overflow-x-auto py-4"
     >
       {filteredNotes.map((note: any) => (
         <div
           id={`note-${note.id}`}
           key={note.id}
-          className={` allnotes relative h-[60%]  px-4 py-6 flex-col w-1/4 rounded-xl flex-shrink-0 ${note.selectedColor}`}
+          className={` allnotes relative lg:h-[60%] h-80  w-full lg:mb-0 mb-4  px-4 py-6 flex-col lg:w-1/4 rounded-xl flex-shrink-0 ${note.selectedColor}`}
         >
           <textarea
             value={note.note}
