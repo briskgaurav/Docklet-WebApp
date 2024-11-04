@@ -1,82 +1,19 @@
 import { GoPlus } from "react-icons/go";
-import gsap from "gsap";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addNotes, SetColorPicker } from "../Features/NotesSlice";
+import { SetColorPicker } from "../Features/NotesSlice";
+import { animatePlusButton } from "../app/Functions/Gsap";
 
 function Sidebar() {
   const [condition, setCondition] = useState(true);
   const dispatch = useDispatch();
   const colors = useSelector((state: any) => state.notes.colors);
-
-
-
-  // console.log(useSelector((state:any) => state.notes.colorPicker));
-  
-  
-
   const handlePlus = () => {
-    if (condition) {
-      const tl = gsap.timeline();
-      tl.to("#plus", {
-        scale: 1.1,
-        rotate: "230deg",
-        ease: "elastic",
-        duration: 0.5,
-      });
-      tl.to("#colors", {
-        opacity: 1,
-        y: 10,
-        ease: "elastic.inOut",
-        duration: 1,
-        stagger: 0.2,
-      });
-      setCondition(false);
-    }
-    if (condition === false) {
-      const tl = gsap.timeline();
-
-      tl.to("#plus", {
-        scale: 1,
-        rotate: "180deg",
-        ease: "bounce.inOut",
-        duration: 0.2,
-      });
-
-      tl.to("#colors", {
-        opacity: 0,
-        y: -100,
-        ease: "elastic.inOut",
-        duration: 1,
-        stagger: 0.2,
-      });
-
-      setCondition(true);
-    }
+    animatePlusButton(condition, setCondition, dispatch);
   };
-
+  
   const handleColorPick = (color: string) => {
-    if (condition === false) {
-      dispatch(SetColorPicker(color));
-      dispatch(addNotes(color));
-
-      const tl = gsap.timeline();
-
-      tl.to("#colors", {
-        opacity: 0,
-        y: -100,
-        ease: "elastic.inOut",
-        duration: 1,
-        stagger: 0.2,
-      });
-
-      tl.to("#plus", {
-        rotate: "180deg",
-        ease: "bounce.inOut",
-        duration: 0.2,
-      });
-    }
-    setCondition(true);
+    dispatch(SetColorPicker(color));
   };
 
   return (
