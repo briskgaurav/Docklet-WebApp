@@ -8,7 +8,7 @@ function Sidebar() {
   const dispatch = useDispatch();
   const colors = useSelector((state: any) => state.notes.colors);
   const handlePlus = () => {
-    animatePlusButton(condition, setCondition, dispatch);
+    animatePlusButton(condition, setCondition);
   };
   const NotePushingAnimationOrder = useSelector(
     (state: any) => state.notes.NotePushingAnimationOrder

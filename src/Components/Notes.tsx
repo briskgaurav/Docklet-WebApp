@@ -21,6 +21,10 @@ function Notes() {
   const NotePushingAnimationOrder = useSelector(
     (state: any) => state.notes.NotePushingAnimationOrder
   );
+  const fn= (animatingId: any) =>{
+    console.log(animatingId);
+  }
+  fn(animatingId);
 
   useEffect(() => {
     let mm = gsap.matchMedia();
@@ -81,7 +85,6 @@ function Notes() {
                 handleDelAnimation(
                   note.id,
                   dispatch,
-                  animatingId,
                   setAnimatingId
                 )
               }
