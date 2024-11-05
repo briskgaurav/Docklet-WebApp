@@ -130,6 +130,7 @@ export const notesSlice = createSlice({
           },
         });
         localStorage.clear();
+        
       }
     },
     setNotePushingAnimationOrder: (state) => {

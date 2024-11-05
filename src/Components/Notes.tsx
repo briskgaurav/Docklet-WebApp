@@ -53,62 +53,62 @@ function Notes() {
       id="container" 
       className="h-[60vh] lg:h-full mt-5  w-full lg:p-0 relative lg:flex items-start justify-start gap-6 overflow-y-auto lg:overflow-x-auto py-4"
     >
-      {filteredNotes.map((note: any) => (
-        <div
-          id={`note-${note.id}`}
-          key={note.id}
-          className={` allnotes relative lg:h-[60%] h-80  w-full lg:mb-0 mb-4  px-4 py-6 flex-col lg:w-1/4 rounded-xl flex-shrink-0 ${note.selectedColor}`}
-        >
-          <textarea
-            value={note.note}
-            onChange={(e) =>
-              dispatch(searchNoteValue({ id: note.id, value: e.target.value }))
-            }
-            className="h-[90%] w-[80%] resize-none text-xl outline-none font-bold placeholder:text-zinc-700 text-zinc-700 select-none bg-transparent"
-            placeholder="Write Somethings here..."
-          ></textarea>
-
-          <div className="flex h-[10%] items-center justify-between">
-            <input
-              value={note.inputValue}
+      {filteredNotes.length === 0 ? (
+        <div className="text-center font-bold  text-zinc-400 w-full">No notes found.</div> 
+      ) : (
+        filteredNotes.map((note: any) => (
+          <div
+            id={`note-${note.id}`}
+            key={note.id}
+            className={`allnotes relative lg:h-[60%] h-80  w-full lg:mb-0 mb-4  px-4 py-6 flex-col lg:w-1/4 rounded-xl flex-shrink-0 ${note.selectedColor}`}
+          >
+            <textarea
+              value={note.note}
               onChange={(e) =>
-                dispatch(setWhoValue({ id: note.id, value: e.target.value }))
+                dispatch(searchNoteValue({ id: note.id, value: e.target.value }))
               }
-              className="text-sm outline-none font-bold placeholder:text-zinc-700 text-zinc-700 select-none bg-transparent"
-              placeholder="Who're you?"
-              type="text"
-            />
+              className="h-[90%] w-[80%] resize-none text-xl outline-none font-bold placeholder:text-zinc-700 text-zinc-700 select-none bg-transparent"
+              placeholder="Write Somethings here..."
+            ></textarea>
+
+            <div className="flex h-[10%] items-center justify-between">
+              <input
+                value={note.inputValue}
+                onChange={(e) =>
+                  dispatch(setWhoValue({ id: note.id, value: e.target.value }))
+                }
+                className="text-sm outline-none font-bold placeholder:text-zinc-700 text-zinc-700 select-none bg-transparent"
+                placeholder="Who're you?"
+                type="text"
+              />
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 1 }}
+                onClick={() =>
+                  handleDelAnimation(note.id, dispatch, setAnimatingId)
+                }
+                className="flex items-center rounded-full cursor-pointer bg-black justify-center p-2"
+              >
+                <MdDelete className="text-lg text-white" />
+              </motion.div>
+            </div>
+
             <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 1 }}
-              onClick={() =>
-                handleDelAnimation(
-                  note.id,
-                  dispatch,
-                  setAnimatingId
-                )
-              }
-              className="flex items-center rounded-full cursor-pointer bg-black justify-center p-2"
+              onClick={() => dispatch(toggleFavourite(note.id))}
+              id="Fav"
+              className="flex absolute top-0 right-0 m-4 items-center rounded-full bg-black justify-center p-2 cursor-pointer"
             >
-              <MdDelete className="text-lg text-white" />
+              <FaStar
+                className={`text-sm ${
+                  note.favourite ? "text-yellow-400" : "text-white"
+                }`}
+              />
             </motion.div>
           </div>
-
-          <motion.div
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 1 }}
-            onClick={() => dispatch(toggleFavourite(note.id))}
-            id="Fav"
-            className="flex absolute top-0 right-0 m-4 items-center rounded-full bg-black justify-center p-2 cursor-pointer"
-          >
-            <FaStar
-              className={`text-sm ${
-                note.favourite ? "text-yellow-400" : "text-white"
-              }`}
-            />
-          </motion.div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }
