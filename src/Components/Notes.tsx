@@ -54,7 +54,7 @@ function Notes() {
       className="h-[60vh] lg:h-full mt-5  w-full lg:p-0 relative lg:flex items-start justify-start gap-6 overflow-y-auto lg:overflow-x-auto py-4"
     >
       {filteredNotes.length === 0 ? (
-        <div className="text-center font-bold  text-zinc-400 w-full">No notes found.</div> 
+        <div className="text-center font-bold lg:flex lg:translate-y-[50%]  text-zinc-400 w-full">No notes found.</div> 
       ) : (
         filteredNotes.map((note: any) => (
           <div

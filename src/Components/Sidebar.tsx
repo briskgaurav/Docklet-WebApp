@@ -46,10 +46,11 @@ function Sidebar() {
                 key={index}
                 onClick={() => onColorPick(color)}
                 id="colors"
-                className={`w-[20px] opacity-0 ${color}  h-[20px] mt-5 rounded-full`}
+                className={`w-[20px] opacity-0 ${color} border lg:shadow-none shadow-black shadow-sm border-zinc-700  h-[20px] mt-5 rounded-full`}
               ></div>
             ))}
           </div>
+          
         </div>
       </div>
     </>
