@@ -22,7 +22,7 @@ function Sidebar() {
 
   return (
     <>
-      <div className="lg:w-[10%] relative w-full h-auto lg:h-full flex-col items-center justify-center px-10 py-4 lg:p-8 border-b-[5px] lg:border-r-[5px] border-zinc-200">
+      <div className="lg:w-[10%]  relative w-full h-auto lg:h-full flex-col items-center justify-center px-10 lg:border-b-0 py-4 lg:p-8 border-b-[5px] lg:border-r-[5px] border-zinc-200">
         <h2 className="font-bold lg:text-justify text-center text-gray-800 text-2xl lg:text-lg">
           Docklet
         </h2>

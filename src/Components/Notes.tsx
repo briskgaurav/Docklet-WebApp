@@ -78,7 +78,7 @@ function Notes() {
                   dispatch(setWhoValue({ id: note.id, value: e.target.value }))
                 }
                 className="text-sm outline-none font-bold placeholder:text-zinc-700 text-zinc-700 select-none bg-transparent"
-                placeholder="Who're you?"
+                placeholder="What's the title?"
                 type="text"
               />
               <motion.div

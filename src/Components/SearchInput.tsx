@@ -25,7 +25,7 @@ function SearchInput() {
           onChange={handleChange}
           className="w-full p-1 border-none mt-2 lg:mt-0 outline-none text-zinc-500 text-md font-semibold"
           type="text"
-          placeholder="Search by name..."
+          placeholder="Search by title..."
         />
       </div>
       <div className="flex w-full lg:w-[20%] mt-3 lg:mt-0 gap-2 h-fit items-center justify-center lg:py-0 py-2">
